@@ -6,21 +6,31 @@ import firebase from 'firebase/app'
 
 import DurationView from './components/duration-view'
 import TimeEdit from './components/time-edit'
+import Loading  from './components/loading'
 import { firestore } from "./api/firebase";
 
 
-const Timer = ({timerId})=> {
+const Timer = ({timerId, goBack})=> {
 
   const collection = firestore.collection('timers')
 
   const {error, loading, value} = useDocument(collection.doc(timerId))
-  let target, remaining
-  const ready = !error && !loading && value
-  if (ready) {
-    const data = value.data()
-    target = data.target ? data.target.toDate() : null
-    remaining = data.remaining
+
+  if (error) {
+    console.error(error)
+    return <div>Something broke</div>
   }
+
+  if (loading) return <Loading/>
+
+  if (!value.exists) {
+    goBack()
+    return null
+  }
+
+  const data = value.data()
+  const target = data.target ? data.target.toDate() : null
+  const remaining = data.remaining
 
   const editRemaining = remaining=> {
     value.ref.set({remaining})
@@ -42,14 +52,14 @@ const Timer = ({timerId})=> {
 
 
   return <div>
-    {ready && <>
+      <div>{timerId}</div>
       {target && <DurationView target={target}/>}
       {paused && <TimeEdit remaining={remaining} onChange={editRemaining}/>}
       {paused ? 
         <Button onClick={start} disabled={remaining === 0}>Start</Button>
       : <Button onClick={pause}>Pause</Button>}
       
-    </>}
+      <Button onClick={goBack}>Go Back</Button>
 
   </div>
 }

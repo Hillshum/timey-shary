@@ -1,7 +1,9 @@
 import React from 'react';
-
-import { auth } from "./api/firebase";
+import {Button } from '@material-ui/core'
 import { useAuthState } from "react-firebase-hooks/auth";
+
+import { auth, firestore } from "./api/firebase";
+import getId from './util/get-id'
 import './App.css';
 
 
@@ -9,15 +11,27 @@ import Timer from './timer'
 
 const App = ()=> {
 
-  const {initialising, user } = useAuthState(auth)
+  const { user } = useAuthState(auth)
 
-  const [timerId, changecode] = React.useState(null)
+  const [timerId, changeCode] = React.useState(null)
   const [showTimer, toggleTimer] = React.useState(false)
+
+  const onCodeChange = code=>changeCode(code.toUpperCase())
 
     React.useEffect(
       ()=>{ auth.signInAnonymously()},
       [user],
     )
+
+    const newTimer = () => {
+      const id = getId()
+      const collection = firestore.collection('timers')
+      collection.doc(id).set({ remaining: 0}).then(()=>{
+        onCodeChange(id)
+        toggleTimer(true)
+      })
+
+    }
 
 
     return (
@@ -27,11 +41,12 @@ const App = ()=> {
             type="text"
             value={timerId || ''}
             placeholder="Enter a timer ID"
-            onChange={({target: {value}})=>changecode(value)}
+            onChange={({target: {value}})=>onCodeChange(value)}
           />
-          <button onClick={()=>toggleTimer(true)}>Submit</button>
+          <Button onClick={()=>toggleTimer(true)}>Submit</Button>
+          <Button onClick={newTimer}>Create New</Button>
         </div>}
-        {user && showTimer && <Timer timerId={timerId} />}
+        {user && showTimer && <Timer timerId={timerId} goBack={()=>toggleTimer(false)} />}
       </div>
     );
   }
