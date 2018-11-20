@@ -3,11 +3,12 @@ import {Button } from '@material-ui/core'
 import { useAuthState } from "react-firebase-hooks/auth";
 
 import { auth, firestore } from "./api/firebase";
-import getId from './util/get-id'
+import getId, {POSSIBLE} from './util/get-id'
 import './App.css';
 
-
 import Timer from './timer'
+
+const filterRe = new RegExp(`[^${POSSIBLE}]`, 'g')
 
 const App = ()=> {
 
@@ -16,7 +17,9 @@ const App = ()=> {
   const [timerId, changeCode] = React.useState(null)
   const [showTimer, toggleTimer] = React.useState(false)
 
-  const onCodeChange = code=>changeCode(code.toUpperCase())
+  const onCodeChange = code=>{
+    changeCode(code.toUpperCase().replace(filterRe, ''))
+  }
 
     React.useEffect(
       ()=>{ auth.signInAnonymously()},

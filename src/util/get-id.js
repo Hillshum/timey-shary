@@ -1,5 +1,5 @@
 const LEN = 6
-const POSSIBLE = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+export const POSSIBLE = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 export default function makeid() {
   let text = "";
 
