@@ -2,13 +2,15 @@ import React from 'react'
 
 import moment from 'moment'
 
+const getDelta = target => target - new Date()
+
 const DurationView = ({target})=> {
-  const [delta, updateDelta] = React.useState(0)
+  const [delta, updateDelta] = React.useState(getDelta(target))
 
   React.useEffect(
     ()=>{
       const timer = window.setInterval(()=>{
-        updateDelta(target - new Date())
+        updateDelta(getDelta(target))
       }, 500)
       return ()=> {
         window.clearInterval(timer)
