@@ -1,2 +1,4 @@
-//TODO: Make this a spinner
-export default ()=>null
+import React from 'react'
+
+import {CircularProgress } from '@material-ui/core'
+export default ()=><CircularProgress/>
