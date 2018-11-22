@@ -24,7 +24,7 @@ const Timer = ({timerId, goBack})=> {
   if (loading) return <Loading/>
 
   if (!value.exists) {
-    goBack()
+    goBack(`Timer ${timerId} not found`)
     return null
   }
 

@@ -5,6 +5,10 @@ import {Button } from '@material-ui/core'
 import ArrowEdit from './arrow-edit'
 
 const TimeEdit = ({remaining, onChange}) => {
+  if (remaining < 0 ) {
+    onChange(0)
+    return null
+  }
   const dur = moment.duration(remaining)
 
   const changeUnit = (val, unit)=> {

@@ -15,11 +15,13 @@ const App = ()=> {
 
   const { user } = useAuthState(auth)
 
+  const [backMessage, setBackMessage] = React.useState('')
   const [timerId, changeCode] = React.useState(null)
   const [showTimer, toggleTimer] = React.useState(false)
   const [isMuted, toggleMute] = React.useState(false)
 
   const onCodeChange = code=>{
+    setBackMessage('')
     changeCode(code.toUpperCase().replace(filterRe, ''))
   }
 
@@ -38,6 +40,13 @@ const App = ()=> {
 
     }
 
+    const goBack = (message='') => {
+
+      changeCode('')
+      toggleTimer(false)
+      setBackMessage(message)
+    }
+
 
     return (
       <MuteContext.Provider value={isMuted}>
@@ -49,10 +58,11 @@ const App = ()=> {
               placeholder="Enter a timer ID"
               onChange={({target: {value}})=>onCodeChange(value)}
             />
-            <Button onClick={()=>toggleTimer(true)}>Submit</Button>
+            <Button disabled={!timerId} onClick={()=>toggleTimer(true)}>Submit</Button>
             <Button onClick={newTimer}>Create New</Button>
+            {backMessage && <div className="back-message">{backMessage}</div>}
           </div>}
-          {user && showTimer && <Timer timerId={timerId} goBack={()=>toggleTimer(false)} />}
+          {user && showTimer && <Timer timerId={timerId} goBack={goBack} />}
           <Button onClick={()=>toggleMute(!isMuted)}>{isMuted ? 'Unmute' : 'Mute'}</Button>
         </div>
       </MuteContext.Provider>

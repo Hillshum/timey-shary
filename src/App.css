@@ -19,6 +19,12 @@
   flex-direction: row;
 }
 
+.back-message {
+  color: red;
+  background-color: pink;
+  padding: 5px;
+}
+
 .expired {
 	-webkit-animation: flash linear 1s infinite;
 	animation: flash linear 1s infinite;
