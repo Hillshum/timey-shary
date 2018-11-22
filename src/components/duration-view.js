@@ -24,9 +24,11 @@ const DurationView = ({target})=> {
   const dur = moment.duration(delta)
   const expired = delta <= 0
 
-  return <div>
+  return <div className="duration-view">
     { !expired ?
-     `${dur.hours()}:${dur.minutes()}:${dur.seconds()}`
+      <div className="remaining-time">
+        {dur.hours()}:{dur.minutes()}:{dur.seconds()}
+      </div>
       : <div className="expired">
         Time Expired
         {! isMuted && <audio src="/alarm.mp3" autoPlay/>}

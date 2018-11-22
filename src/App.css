@@ -25,6 +25,10 @@
   padding: 5px;
 }
 
+.duration-view {
+  font-size: 5rem;
+}
+
 .expired {
 	-webkit-animation: flash linear 1s infinite;
 	animation: flash linear 1s infinite;
