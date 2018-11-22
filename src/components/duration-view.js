@@ -2,10 +2,13 @@ import React from 'react'
 
 import moment from 'moment'
 
+import MuteContext from '../api/mute-context'
+
 const getDelta = target => target - new Date()
 
 const DurationView = ({target})=> {
   const [delta, updateDelta] = React.useState(getDelta(target))
+  const isMuted = React.useContext(MuteContext)
 
   React.useEffect(
     ()=>{
@@ -26,7 +29,7 @@ const DurationView = ({target})=> {
      `${dur.hours()}:${dur.minutes()}:${dur.seconds()}`
       : <div className="expired">
         Time Expired
-        <audio src="/alarm.mp3" autoPlay/>
+        {! isMuted && <audio src="/alarm.mp3" autoPlay/>}
       </div>
     }
   </div>

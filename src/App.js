@@ -2,6 +2,7 @@ import React from 'react';
 import {Button } from '@material-ui/core'
 import { useAuthState } from "react-firebase-hooks/auth";
 
+import MuteContext from './api/mute-context'
 import { auth, firestore } from "./api/firebase";
 import getId, {POSSIBLE} from './util/get-id'
 import './App.css';
@@ -16,6 +17,7 @@ const App = ()=> {
 
   const [timerId, changeCode] = React.useState(null)
   const [showTimer, toggleTimer] = React.useState(false)
+  const [isMuted, toggleMute] = React.useState(false)
 
   const onCodeChange = code=>{
     changeCode(code.toUpperCase().replace(filterRe, ''))
@@ -38,19 +40,22 @@ const App = ()=> {
 
 
     return (
-      <div className="App">
-        {!showTimer && <div className="timer-picker">
-          <input
-            type="text"
-            value={timerId || ''}
-            placeholder="Enter a timer ID"
-            onChange={({target: {value}})=>onCodeChange(value)}
-          />
-          <Button onClick={()=>toggleTimer(true)}>Submit</Button>
-          <Button onClick={newTimer}>Create New</Button>
-        </div>}
-        {user && showTimer && <Timer timerId={timerId} goBack={()=>toggleTimer(false)} />}
-      </div>
+      <MuteContext.Provider value={isMuted}>
+        <div className="App">
+          {!showTimer && <div className="timer-picker">
+            <input
+              type="text"
+              value={timerId || ''}
+              placeholder="Enter a timer ID"
+              onChange={({target: {value}})=>onCodeChange(value)}
+            />
+            <Button onClick={()=>toggleTimer(true)}>Submit</Button>
+            <Button onClick={newTimer}>Create New</Button>
+          </div>}
+          {user && showTimer && <Timer timerId={timerId} goBack={()=>toggleTimer(false)} />}
+          <Button onClick={()=>toggleMute(!isMuted)}>{isMuted ? 'Unmute' : 'Mute'}</Button>
+        </div>
+      </MuteContext.Provider>
     );
   }
 
