@@ -22,7 +22,10 @@ const DurationView = ({target})=> {
   return <div>
     { !expired ?
      `${dur.hours()}:${dur.minutes()}:${dur.seconds()}`
-      : <div className="expired">Time Expired</div>
+      : <div className="expired">
+        Time Expired
+        <audio src="/alarm.mp3" autoPlay/>
+      </div>
     }
   </div>
 }
