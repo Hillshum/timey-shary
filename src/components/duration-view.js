@@ -17,11 +17,12 @@ const DurationView = ({target})=> {
     [target],
   )
   const dur = moment.duration(delta)
+  const expired = delta <= 0
 
   return <div>
-    { delta > 0 ?
+    { !expired ?
      `${dur.hours()}:${dur.minutes()}:${dur.seconds()}`
-      : 'Time Expired'
+      : <div className="expired">Time Expired</div>
     }
   </div>
 }
