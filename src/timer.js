@@ -52,7 +52,7 @@ const Timer = ({timerId, goBack})=> {
 
 
   return <div>
-      <div>{timerId}</div>
+      <div>Share code: {timerId}</div>
       {target && <DurationView target={target}/>}
       {paused && <TimeEdit remaining={remaining} onChange={editRemaining}/>}
       {paused ? 
