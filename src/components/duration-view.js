@@ -4,6 +4,8 @@ import moment from 'moment'
 
 import MuteContext from '../api/mute-context'
 
+import alarm from '../alarm.mp3'
+
 const getDelta = target => target - new Date()
 
 const DurationView = ({target})=> {
@@ -31,7 +33,7 @@ const DurationView = ({target})=> {
       </div>
       : <div className="expired">
         Time Expired
-        {! isMuted && <audio src="/alarm.mp3" autoPlay/>}
+        {! isMuted && <audio src={alarm} autoPlay/>}
       </div>
     }
   </div>
