@@ -14,7 +14,7 @@ const usePath = () => {
 
   React.useEffect(
     ()=>{
-      window.onhashchange = ()=>{
+      window.onpopstate = ()=>{
         setPath(window.location.pathname.substr(1))
       }
       return ()=> {window.onhashchange = null}
