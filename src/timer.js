@@ -59,7 +59,7 @@ const Timer = ({timerId, goBack})=> {
         <Button onClick={start} disabled={remaining === 0}>Start</Button>
       : <Button onClick={pause}>Pause</Button>}
       
-      <Button onClick={goBack}>Go Back</Button>
+      <Button onClick={()=>goBack()}>Go Back</Button>
 
   </div>
 }
