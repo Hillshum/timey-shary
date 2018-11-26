@@ -7,6 +7,7 @@ import firebase from 'firebase/app'
 import DurationView from './components/duration-view'
 import TimeEdit from './components/time-edit'
 import Loading  from './components/loading'
+import CopyCode from './components/copy-code'
 import { firestore } from "./api/firebase";
 
 
@@ -52,7 +53,7 @@ const Timer = ({timerId, goBack})=> {
 
 
   return <div>
-      <div>Share code: {timerId}</div>
+      <CopyCode code={timerId}/>
       {target && <DurationView target={target}/>}
       {paused && <TimeEdit remaining={remaining} onChange={editRemaining}/>}
       {paused ? 
